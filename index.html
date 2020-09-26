@@ -8,41 +8,35 @@
 
 		<link rel="stylesheet" href="css/vegas.css">
 		<link rel="stylesheet" href="css/theme/black.css">
-
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
+		<script src="http://code.jquery.com/jquery.min.js"></script>
+		<script src="js/vegas.js"></script>
 	</head>
 	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>
-					<section> Slide 1-1 </section>
-					<section> Slide 1-2 </section>
-					<section> Slide 1-3 </section>
-				</section>
-				<section>
-					Slide 2
-				</section>
-			</div>
+		<div></div>
+		<H1>Heibei Experimental Room</H1>
+		<div></div>
+
+		<div>
+			<ul>
+				<li><href a="markdown.html">スライドページ</href></li>
+				<li>テキスチャライザー</li>
+
+			</ul>
+
+
 		</div>
-
-		<script src="js/vegas.js"></script>
-
-		<script>
-		</script>
 	</body>
+		<script>
 $("#example, body").vegas({
     slides: [
-        { src: "/images/010.jpg" },
-        { src: "/images/020.jpg" },
-        { src: "/images/030.jpg" },
-        { src: "/images/040.jpg" }
+        { src: "images/010.jpg" },
+        { src: "images/020.jpg" },
+        { src: "images/030.jpg" },
+        { src: "images/040.jpg" },
+        { src: "images/050.jpg" },
+        { src: "images/060.jpg" },
+        { src: "images/070.jpg" }
     ]
 });
+		</script>
 </html>
