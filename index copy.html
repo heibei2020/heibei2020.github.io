@@ -6,8 +6,12 @@
 
 		<title>丸の内平米の実験室</title>
 
-		<link rel="stylesheet" href="css/vegas.css">
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/monokai.css">
 
 		<!-- Printing and PDF exports -->
 		<script>
@@ -32,17 +36,21 @@
 			</div>
 		</div>
 
-		<script src="js/vegas.js"></script>
+		<script src="js/reveal.js"></script>
 
 		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				hash: true,
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/highlight/highlight.js' },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
 		</script>
 	</body>
-$("#example, body").vegas({
-    slides: [
-        { src: "/images/010.jpg" },
-        { src: "/images/020.jpg" },
-        { src: "/images/030.jpg" },
-        { src: "/images/040.jpg" }
-    ]
-});
 </html>
