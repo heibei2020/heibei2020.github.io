@@ -1,0 +1,308 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>ソフトウェア開発エンジニアリングプロセス</title>
+
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/monokai.css">
+
+	<script src="http://code.jquery.com/jquery.min.js"></script>
+	<script src="js/textualizer.js"></script> 
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!-- Printing and PDF exports -->
+	<style type="text/css">
+	#txtlzr
+		{
+            font-size: 50px;
+            width: 700px;
+            height: 300px;
+            margin-left: 100px;
+            margin-top: 50px;
+            border: 1px black;
+        }
+    </style>
+
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+
+<section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n>>>\n$" data-background-image="images/010.jpg" data-transition="zoom">
+
+# ソフトウェア開発を加速する技術
+
+>>>
+
+| 手法 | 提唱年 | 
+| --- | --- |
+| ウォーターフォール | 1976年 |
+| CMM <br> (Capabilty of Maturity Model) | 1989年 |
+| ITIL <br> (Information Technology Infrastracture Library) | 1989年 |
+| PMBOK <br> (Project Management Body of Knowledge) | 1996年 |
+| アジャイル | 2001年 |
+| DevOps | 2009年 |
+| SoR/SoE | 2011年 |
+| マイクロサービス | 2014年 |
+
+</section>
+
+<section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n>>>\n$" data-background-image="images/020.jpg" data-transition="zoom">
+
+	アジャイルソフトウェア開発宣言
+
+	https://agilemanifesto.org/iso/ja/manifesto.html
+
+	私たちは、ソフトウェア開発の実践
+	あるいは実践を手助けをする活動を通じて、
+	よりよい開発方法を見つけだそうとしている。
+	この活動を通して、私たちは以下の価値に至った。
+	
+	プロセスやツールよりも個人と対話を、
+	包括的なドキュメントよりも動くソフトウェアを、
+	契約交渉よりも顧客との協調を、
+	計画に従うことよりも変化への対応を、
+	
+	価値とする。すなわち、左記のことがらに価値があることを
+	認めながらも、私たちは右記のことがらにより価値をおく。
+
+>>>
+
+https://agilemanifesto.org/iso/ja/principles.html
+
+私たちは以下の原則に従う:
+1. 顧客満足を最優先し、価値のあるソフトウェアを早く継続的に提供します。 
+1. 要求の変更はたとえ開発の後期であっても歓迎します。 変化を味方につけることによって、お客様の競争力を引き上げます。 
+1. 動くソフトウェアを、2-3週間から2-3ヶ月というできるだけ短い時間間隔でリリースします。 
+1. ビジネス側の人と開発者は、プロジェクトを通して日々一緒に働かなければなりません。 
+1. 意欲に満ちた人々を集めてプロジェクトを構成します。環境と支援を与え仕事が無事終わるまで彼らを信頼します。 
+1. 情報を伝えるもっとも効率的で効果的な方法はフェイス・トゥ・フェイスで話をすることです。 
+1. 動くソフトウェアこそが進捗の最も重要な尺度です。 
+1. アジャイル･プロセスは持続可能な開発を促進します。一定のペースを継続的に維持できるようにしなければなりません。 
+1. 技術的卓越性と優れた設計に対する不断の注意が機敏さを高めます。 
+1. シンプルさ（ムダなく作れる量を最大限にすること）が本質です。
+1. 最良のアーキテクチャ・要求・設計は 自己組織的なチームから生み出されます。
+1. チームがもっと効率を高めることができるかを定期的に振り返り、それに基づいて自分たちのやり方を最適に調整します。
+
+</section>
+
+<section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n>>>\n$" data-background-image="images/030.jpg" data-transition="zoom">
+
+12Factors
+
+| 番号 | 項目 | プラクティス | 
+| ---- | ---- | ---- | 
+| I.|コードベース|バージョン管理されている1つのコードベースと複数のデプロイ| 
+| II. | 依存関係 | 依存関係を明示的に宣言し分離する | 
+| III.| 設定 | 設定を環境変数に格納する | 
+| IV. |バックエンドサービス | バックエンドサービスをアタッチされたリソースとして扱う  | 
+| V. | ビルド、リリース、実行 | ビルド、リリース、実行の3つのステージを厳密に分離する | 
+| VI. | プロセス | アプリケーションを1つもしくは複数のステートレスなプロセスとして実行する | 
+| VII. | ポートバインディング | ポートバインディングを通してサービスを公開する | 
+|VIII. | 並行性 | プロセスモデルによってスケールアウトする | 
+|IX. |廃棄容易性 |高速な起動とグレースフルシャットダウンで堅牢性を最大化する | 
+|X. | 開発/本番一致 |開発、ステージング、本番環境をできるだけ一致させた状態を保つ | 
+|XI. | ログ |ログをイベントストリームとして扱う | 
+|XII. | 管理プロセス | 管理タスクを1回限りのプロセスとして実行する | 
+
+</section>
+
+<section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n>>>\n$" data-background-image="images/040.jpg" data-transition="zoom">
+
+現代の三種の神器
+
+|#|設計ポイント|技術要素|  
+|---|---|---|
+|1|疎結合アーキテクチャ|マイクロサービス|  
+|2|軽量仮想化|コンテナ|  
+|3|軽量プロセス|DevOps|  
+</section>
+
+<section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n>>>\n$" data-background-image="images/030.jpg" data-transition="zoom">
+
+# CALMS  = DevOps 
+- Culture（文化）
+- Automation（自動化）
+- Lean（無駄がない）
+-Measurement（計測）
+-Sharing（共有）
+
+「Accelerate: The Science of Lean Software and DevOps: Building and Scaling High Performing Technology Organizations」
+　https://www.amazon.com/dp/B07B9F83WM 
+
+
+>>>
+
+# Culture
+（文化）
+
+文化はDevOpsに関わる人とプロセスに影響します。複雑すぎず、単純過ぎない「ちょうど十分な」プロセスが実装し、メンバーが効果的に対話と協業できるよう助けます。DevOpsの文化無しには、自動化の試みは意味をなしません。
+
+>>>
+
+# Automation 
+（自動化）
+
+リリース管理・構成管理・監視ツールといった技術は、開発フローを高度化します。DevOpsでは自動化が鍵を握ります。
+
+>>>
+
+# Lean
+（無駄がない）
+
+リーン生産方式は、開発フローを改善して無駄を最小化しながら、顧客価値を最大化する試みです。製造分野では1980年代にリーン方式によってプロセスが革新的に進歩しました。今日ではリーン方式がソフトウェア・デリバリーに適用され、ITを革新的なものにしています。
+
+>>>
+
+# Measurement
+（計測）
+
+「計測できなければ管理できない」「計測できなければ改善できない」といった古い格言があります。DevOpsの実装に成功するには、人・プロセス・技術的パフォーマンスの全てを計測します。
+
+>>>
+
+# Sharing
+（共有）
+
+共有とはCALMSサイクルのフィードバック・ループを意味します。チームがアイデアや問題を共有しあう文化を醸成するのは、対話と協業を促進するだけではなく、組織全体の改善を進めるのに重要です。
+
+</section>
+
+<section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n>>>\n$" data-background-image="images/030.jpg" data-transition="zoom">
+
+# 3Way of DevOps
+DevOpsの開発フロー、フィードバック、実験と学習を表す「三つの道」
+
+DevOpsの三つの道について、次に示します。
+
+>>>
+
+# 一つ目の道：フロー
+
+1. CI (継続的インテグレーション)  
+少なくとも毎日、共有されたリポジトリにコードをコミットすることを開発者に求める手法。
+1. CD (継続的デリバリー)  
+開発ライフサイクル全てを通じて、ソフトウェアが常にリリースできる状態に保つ方法論。
+1. CD (継続的デプロイメント)  
+すべての変更が自動化テストを通過し、自動的に本番環境へデプロイできる方法。
+1. カンバン方式  
+作業の流れを図示し、管理可能な開発速度でプロセスを取り扱う手法。
+1. 制約理論  
+最も重要な阻害要因を明らかにする方法論。阻害要因にならなくなるまで改善を続け、ゴールを達成する。
+1. バリュー・ストリーム・マッピング  
+各チームをまたがった成果物や情報の流れを書き出して、時間や品質を含めた無駄を定量化するツール。
+
+>>>
+
+# 二つ目の道：フィードバック
+
+1. 自動化されたテスト  
+1. 本番環境の変更に対するピアレビュー
+1. 監視とイベントマネジメントのデータ
+1. ダッシュボード
+1. 本番環境のログ
+1. プロセスの計測
+1. ポスト・モータム（プロジェクト終了後の振り返り）
+1. 問い合わせ対応のローテーション
+1. 変更管理・インシデント管理・問題管理・知識管理の情報
+
+>>>
+
+# 三つ目の道：継続的な実験と学習
+
+1. 実験と学習
+1. PDCA（デミング）サイクル
+1. 型（あるいは、プロセス）の改善
+1. 失敗を活用し頑健性を改善する
+1. ITサービスマネジメントの実践
+
+</section>
+
+
+
+
+<section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n>>>\n$" data-background-image="images/050.jpg" data-transition="zoom">
+
+# マイクロサービスアーキテクチャー
+
+ソフトウェア開発の技法の1つであり、1つのアプリケーションを、ビジネス機能に沿った複数の小さいサービスの疎に結合された集合体として構成するサービス指向アーキテクチャ（service-oriented architecture; SOA）の1種である。
+2014年、ThoughtWorks社のマーチン・ファウラーとジェームス・ルイスが提唱したソフトウェアアーキテクチャ
+
+>>>
+
+### マイクロサービスの特徴
+
+|No|特徴|説明|
+|---|---|---|
+|1|サービスのコンポーネント化|コンポーネントは独立して交換・更新可能なソフトウェアの単位である。|
+|2|ビジネス中心組織|開発運用チームは技術や開発工程によるチームではなく、ビジネスを中心に機能横断型のチームが編成されている。|
+|3|プロジェクトではなくプロダクト|チームは開発完了とともに解散するプロジェクトモデルではなく、製品のライフサイクル全体に責任を持つ。|
+|4|スマートエンドポイントとダムパイプ|メッセージ通信は軽量かつシンプルであること。エンドポイントに高い機能を持たせ、通信はダムパイプ（メッセージのルータとしてのみ動作する単純な機構）であること。|
+|5|分散統治| 各サービスは独立したチーム、開発言語、ツールでアプローチする。|
+|6|分散データ管理 | 概念モデルに関する分散だけでなく、データストレージも分散(サービス間で独立)する。|
+|7|インフラストラクチャの自動化 | テスト自動化/継続的デリバリー/継続的インテグレーションの導入|
+|8|障害の設計 | 個々のサービスはいつでも失敗する可能性があるため、互いに障害を迅速に検出し、可能であれば自動的にサービスを復元できることが重要。|
+|9|進化的な設計 | 頻繁に、迅速に、適切に制御されたソフトウェアの変更・廃止・構築を行うことができること。|
+
+>>>
+
+### マイクロサービスパターン
+
+マイクロサービスアーキテクチャーを理解するパターン言語
+- A pattern language for microservices 
+- https://microservices.io/patterns/index.html
+
+>>>
+
+### マイクロサービスの課題
+1. 共通化基盤とコンポーネント境界をどこに定めるべきかが困難 - リリースや変更するサービス単位が境界になるがビジネスやマーケットに左右される。
+1. インターフェース変更に伴うリファクタリング - サービス境界全体では変更が難しく、参加者間でインターフェイスの変更を調整する必要があり、かつ後方互換性のレイヤーを追加する必要があり、テストがより複雑になる。
+1. 複雑化されたコンポーネント - コンポーネントがきれいに構成されていない場合、コンポーネント内からコンポーネント間の接続へ複雑さがシフトしてしまいそれがさらに波及するリスクがある。
+1. チームスキル - スキルが高いチームに効果的な技術は、スキルの低いチームでは必ずしも機能しない。この問題が一部のマイクロサービスに混入した場合、システム全体に影響する可能性がある。
+
+
+</section>
+
+
+			</div>
+		</div>
+
+		<script src="js/reveal.js"></script>
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				hash: true,
+				progress: true, // Display a presentation progress bar
+      	slideNumber: true, // Display the page number of the current slide
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/highlight/highlight.js' },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+    $(function() {
+          var txt = $('#txtlzr'); 
+          txt.textualizer();
+          txt.textualizer('start');
+    })
+		</script>
+	</body>
+</html>
