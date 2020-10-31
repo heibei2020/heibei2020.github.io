@@ -1,4 +1,4 @@
-.vegas-overlay,
+vegas-overlay,
 .vegas-content-scrollable,
 .vegas-timer,
 .vegas-slide,
@@ -550,18 +550,71 @@ body.vegas-container > .vegas-slide {
 
 @-webkit-keyframes kenburnsUp {
     0% {
-        transform: scale(1.5) translate(0, 10%);
+        transform: scale(1.0) translate(10%, 0);
     }
     100% {
-        transform: scale(1) translate(0, 0);
+        transform: scale(1.5) translate(10%, 0);
     }
 }
 
 @keyframes kenburnsUp {
     0% {
-        transform: scale(1.5) translate(0, 10%);
+        transform: scale(1.0) translate(10%, 0);
     }
     100% {
-        transform: scale(1) translate(0, 0);
+        transform: scale(1.5) translate(10%, 0);
+    }
+}
+
+
+/*******************************************/
+/* HeibeiMoveRight animation */
+/*******************************************/
+.vegas-animation-heibeiMoveRight {
+    -webkit-animation: heibeiMoveRight ease-out;
+            animation: heibeiMoveRight ease-out;
+}
+
+@-webkit-keyframes heibeiMoveRight {
+    0% {
+        transform: scale(1.5) translate(-5%,0);
+    }
+    100% {
+        transform: scale(1.5) translate(5%,0);
+    }
+}
+
+@keyframes heibeiMoveRight {
+    0% {
+        transform: scale(1.5) translate(-5%,0);
+    }
+    100% {
+        transform: scale(1.5) translate(5%,0);
+    }
+}
+
+/*******************************************/
+/* HeiveiMoveLeft animation */
+/*******************************************/
+.vegas-animation-heibeiMoveLeft {
+    -webkit-animation: heibeiMoveLeft ease-out;
+            animation: heibeiMoveLeft ease-out;
+}
+
+@-webkit-keyframes heibeiMoveLeft {
+    0% {
+        transform: scale(1.5) translate(5%,0);
+    }
+    100% {
+        transform: scale(1.5) translate(-5%,0);
+    }
+}
+
+@keyframes heibeiMoveLeft {
+    0% {
+        transform: scale(1.5) translate(5%,0);
+    }
+    100% {
+        transform: scale(1.5) translate(-5%,0);
     }
 }
