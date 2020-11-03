@@ -47,22 +47,48 @@
 		}
 		li,a {
 			color: cyan;
+		}
+		div.linkitem {
+			color: cyan;
 			font-size: 2.0vmin;
 			background-color:#202020;
+			margin-top: 3.0vmin;
 		}
-		div.linkeitemlist {
+		span.linkitemdisc {
+			color: cyan;
+			font-size: 1.0vmin;
+			background-color:#202020;
+			vertical-align: top;
+		}
+
+		div.linkitemlist {
 			opacity: 100%;
 			position: absolute;
 			bottom: 3%;
 			right: 1%;
-			left: 80%;
+			text-align: right;
 			margin: auto;
+		}
+		span.contenttext {
+			color:white;
+			font-size: 2vmin;
+			background-color:#202020;
+			line-height: 3.5vh;
+		}
+		div.contentplace {
+			height: 20%;
+			position:absolute;
+			right:1%;
+			bottom:20%;
+			text-align: right;
 		}
 		#pageheader {
 			width: 98%;
 			color: white;
-			position:absolute;
-			top:2%;
+			position:relative;
+			top:50%;
+			vertical-align: middle;
+			margin: auto;
 		}
 		#pagefooter {
 			width: 98%;
@@ -71,21 +97,43 @@
 			text-align: center;
 			bottom:2%;
 		}
+		#contactmedia {
+			font-size: 20px;
+			color:black;
+			background-color:#EDF7FF;
+			top:60%;
+			display: inline-block;
+			padding: 1px;
+		}
+		img.contact {
+			vertical-align: middle;
+		}
 		</style>
 	</head>
 
 	<body>
 	<div id="pageheader">
-		このページはVegas2に寄って作られています。
+	    <div id="contactmedia">contact me</div>
+		<div id="contactmedia"><a href="mailto:heibei.marunouchi@gmail.com"><img class="contact" src="images/icon/email.png" alt="mail" width="20px" height="20px"></a></div>
+		<div id="contactmedia"><a href="https://github.com/heibei2020"><img class="contact" src="images/icon/github.png" alt="github" width="20px" height="20px"></a></div>
+		<div id="contactmedia"><a href="https://www.linkedin.com/in/heibei2020"><img class="contact" src="images/icon/linkedin.png" alt="linedin" width="20px" height="20px"></a></div>
+		このページは<a href="https://vegas.jaysalvat.com/#">Vegas2 (javascriptライブラリ) </a>に寄って作られています。
 	</div>
 	<div id="vegasdisplay">
+
 		<div id="pagemenu">
 			<p id="pagetitle"> Heibei Stock Room</p>
 			<p id="pagetitleback"> Heibei Stock Room</p>
 		</div>
+		<div class="contentplace">
+			<span class="contenttext">技術系のプレゼンテーションを格納しておくサイト</span><br>
+			<span class="contenttext">フロントエンド系技術のポートフォリオを兼ねる</span><br>
+			<span class="contenttext">2020年はソフトウェアエンジニアリング</span>
+		</div>
 
-		<div class="linkeitemlist">
-			<div class="linkitem"> <a href="softwareprocess.html">reveal.js(スライド)</a></div>
+		<div class="linkitemlist">
+			<div class="linkitem"> <a href="softwareprocess.html">ソフトウェア開発をサポートする技術たち<br>
+			<span class="linkitemdisc"> performed by reveal.js( a javascript presentation tool )</span></a></div>
 			<div class="linkitem"> <a href="markdown.html">textulizar.js</a></div>
 		</div>
 	</div>
