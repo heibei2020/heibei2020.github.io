@@ -14,9 +14,12 @@
 
 		#vegasdisplay {
 			width: 98vw;
-			height: 98vh;
-			position: relative;
+			height: 70vh;
+			position: absolute;
+			top: 10%;
+			bottom:10%;
 		}
+
 		#pagetitle {
 			font-size: 10vh;
 			opacity: 100%;
@@ -47,7 +50,7 @@
 			font-size: 2.0vmin;
 			background-color:#202020;
 		}
-		div.linkeitemlist{
+		div.linkeitemlist {
 			opacity: 100%;
 			position: absolute;
 			bottom: 3%;
@@ -55,22 +58,39 @@
 			left: 80%;
 			margin: auto;
 		}
+		#pageheader {
+			width: 98%;
+			color: white;
+			position:absolute;
+			top:2%;
+		}
+		#pagefooter {
+			width: 98%;
+			color: white;
+			position:absolute;
+			text-align: center;
+			bottom:2%;
+		}
 		</style>
 	</head>
 
 	<body>
-
+	<div id="pageheader">
+		このページはVegas2に寄って作られています。
+	</div>
 	<div id="vegasdisplay">
 		<div id="pagemenu">
 			<p id="pagetitle"> Heibei Stock Room</p>
 			<p id="pagetitleback"> Heibei Stock Room</p>
-
 		</div>
 
 		<div class="linkeitemlist">
 			<div class="linkitem"> <a href="softwareprocess.html">reveal.js(スライド)</a></div>
 			<div class="linkitem"> <a href="markdown.html">textulizar.js</a></div>
 		</div>
+	</div>
+	<div id="pagefooter">
+		Kopyright (K) 2020 Heibei Marunouchi.,Ltd. All Rights Resarved. this is just a joke.
 	</div>
 
 
