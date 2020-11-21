@@ -3,9 +3,7 @@ var target_pos = {"名詞":1,"動詞":1};
 $(function(){
 
     $('#k-btn').on('click',function(){
-        //$('#display').text($('#k-area').val());
-        var key = Object.keys(homonym);
-        $('#display').text(homonym[key[1]]);
+        $('#display').text('');
     });
 
 //    $('#k-area').on('change',function(){
