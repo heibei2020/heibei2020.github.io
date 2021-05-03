@@ -44,7 +44,7 @@ $(function(){
 
 let kuromojiObj;
 var homonym = {};
-var kurobuilder = kuromoji.builder({ dicPath: "dict/" });
+var kurobuilder = kuromoji.builder({ dicPath: "../kuroDict/dict/" });
 
 kurobuilder.build(function(err,tokenizer){
     // tokenizer is ready
