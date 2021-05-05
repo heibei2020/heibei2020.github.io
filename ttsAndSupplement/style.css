@@ -1,8 +1,11 @@
 #firstpanel {
-    background-color: white;
+    background-color:#88FCB8;
   }
   #secondpanel {
-    background-color: white;
+    background-color: #BEFC88;
+  }
+  #thirdpanel {
+    background-color:#EEF57F;
   }
 
   @media (min-width: 600px) {
