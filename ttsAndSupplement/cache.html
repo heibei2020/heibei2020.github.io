@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8 />
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <title>連想配列でのキャッシュ遊び</title>
+</head>
+
+<!-- <script src="index.js"></script> -->
+
+<body>
+    <div>連想配列での<a href="../index.html">ストックルームのトップに戻る</a></div>
+    <textarea id="k-area" rows="4" cols="40"></textarea><br>
+    <input type="submit" id="add-btn" value="追加"><br>
+    <input type="submit" id="reset-btn" value="リセット"><br>
+    <input type="submit" id="dict-reset-btn" value="辞書リセット"><br>
+    <div id="display"></div>
+    <div id="preview"></div>
+</body>
+
+<script type="text/javascript">
+        var cache_dict = {};
+
+        var target = document.getElementById('k-area');
+        var display = document.getElementById('display');
+
+        var add_btn = document.getElementById("add-btn");
+       add_btn.addEventListener("click",function (){
+           if(target.value  != ""){
+               if(target.value in cache_dict){
+                   console.log("key has defined  -- " + target.value);
+               }else{
+                   cache_dict[target.value] = true;
+                   console.log("key has undefined & add now -- " + target.value);
+               }
+               a(cache_dict);
+           }
+
+       });
+
+       var reset_btn = document.getElementById("reset-btn");
+       reset_btn.addEventListener("click",function(){
+           target.value = "";
+           display.innerHTML = "";
+       });
+
+        var dict_reset_btn = document.getElementById("dict-reset-btn");
+       dict_reset_btn.addEventListener("click",function(){
+            cache_dict = {};
+            a(cache_dict);
+       });
+
+       function a(cache_dict){
+           console.log('--start--------------');
+           for (var k in cache_dict) {
+               console.log("key " + k);
+               console.log("item" + cache_dict[k]);
+           }
+           console.log('--end  --------------');
+       }
+
+ function setMuatonObserver(){
+       // オブザーバーの作成
+       var mo = new MutationObserver(function(record, observer) {
+          // 変化が発生したときの処理を記述
+          target.value="";
+
+
+        });
+       
+       let config = {
+             childList: true,
+             subtree: true,
+            characterData: true
+            };
+       // 監視の開始
+       mo.observe(display,config);
+}
+setMuatonObserver();
+
+</script>
+
+</html>
