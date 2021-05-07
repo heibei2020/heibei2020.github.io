@@ -18,25 +18,39 @@
 
 <body>
     <div class="main">
-    <div><a href="../index.html">トップページに戻る</a></div>
+    <div ><span id="page_title">マイクで喋ってる固有名詞の意味を即表示するプロト</span> <a href="../index.html">トップページに戻る</a></div>
 
     <div id="mainpanel">
         <div id="firstpanel">
-
+                <div class="panel_title">音声認識結果のパネル</div>
                 <div id="result_text" class="text_area">音声認識が始まるとここに文字が表示されます。マイクを有効にしてください。</div>
+                <br>
+                音声認識ログ（降順）<br>
+                <div id="result_text_before"></div>
         </div>
+
         <div id="secondpanel">
-            <div id="display">情報を表示するためのパネル</div>
+             <div class="panel_title">分かち書き結果のパネル</div>
+            <div id="wakachi_display"></div>
         </div>
+
         <div id="thirdpanel">
-            <div id="proper_noun_display">固有名詞を表示するためのパネル</div>
+             <div class="panel_title">固有名詞の意味を表示するためのパネル</div>
+            <div id="proper_noun_display"></div>
         </div>
-
     </div>
-
 <!--  ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
 <!--  ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
 
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
     <div id="status" class="error">起動中...</div>
     <div class="help_text log_link_description"><a href="#log">認識結果のログ表示/ダウンロード</a></div>
 
@@ -134,21 +148,17 @@
             for (var i = event.resultIndex; i < results.length; i++) {
                 if (results[i].isFinal) {
                     var result_transcript = results[i][0].transcript
-                    if (lang == 'ja-JP') {
-                        result_transcript += '。';
-                    }
+
+                    //if (lang == 'ja-JP') {
+                    //    result_transcript += '。';
+                    //}
+                    document.getElementById('result_text_before').insertAdjacentHTML("afterbegin","><BR>>" + document.getElementById('result_text').innerHTML + "<BR>" + "\n");
                     document.getElementById('result_text').innerHTML = result_transcript;
 
                     if (result_transcript !=''){
                         //分かち書きして表示する
-                        document.getElementById('display').innerHTML = getWakachiTable(result_transcript);
-                        //固有名詞を表示する処理を実行する
-                       var proper_noun_transcript = "";
-                       for(var i = 0; i < proper_noun_array.length;i++) {
-                           proper_noun_transcript += proper_noun_array[i] ;
-                           proper_noun_transcript += '<br>' ;
-                        }
-                       document.getElementById('proper_noun_display').innerHTML = proper_noun_transcript;
+                        document.getElementById('wakachi_display').insertAdjacentHTML("afterbegin",getWakachiTable(result_transcript));
+
                     }
 
                     if(document.getElementById('checkbox_timestamp').checked){
@@ -165,7 +175,7 @@
                         result_transcript = timestamp + result_transcript
                     }
 
-                    document.getElementById('result_log').insertAdjacentHTML('beforeend', result_transcript+'\n');
+                    document.getElementById('result_log').insertAdjacentHTML("beforeend", result_transcript+'\n');
                     textAreaHeightSet(document.getElementById('result_log'));
 
                     getProperNounSupplement();
@@ -410,20 +420,20 @@
         var token_result = kuromojiObj.tokenize(result_text);
         var token_result2string = '';
         proper_noun_array = [];
-        token_result2string = '<table>';
 
         for (var i = 0; i < token_result.length; i++) {
-            token_result2string += '<tr>';
-            token_result2string += '<td class="wakati-cell" valign=\"top\">' +  token_result[i].surface_form + '</td>';
-            token_result2string += '<td valign=\"top\">' +  token_result[i].pos + '</td>';
-            token_result2string += '<td valign=\"top\">' +  token_result[i].pos_detail_1 + '</td>';
             if(token_result[i].pos_detail_1 == '固有名詞'){
                 proper_noun_array.push(token_result[i].surface_form);
+                token_result2string += '<span class=\"proper_wakachi_span\" valign=\"top\">';
+            }else{
+                token_result2string += '<span class=\"wakachi_span\" valign=\"top\">';
             }
-            token_result2string += '</tr>';
+            token_result2string += token_result[i].surface_form + '</span>';
+
+            token_result2string += '<span class=\"wakachi_normal_span\">・・・' +  token_result[i].pos ;
+            token_result2string += '［' +  token_result[i].pos_detail_1 + '］<BR></span>';
         }
 
-        token_result2string += '</table>';
         return token_result2string;
     }
 
@@ -465,14 +475,10 @@
      function displayProperNounSupplement(){
          var proper_noun_supplement = "";
          for(var i = 0; i < proper_noun_array.length;i++) {
-             proper_noun_supplement += "■固有名詞■：";
-             proper_noun_supplement +=proper_noun_array[i];
-             proper_noun_supplement += "<BR>";
-             proper_noun_supplement += "-----------------------------<BR>";
-             proper_noun_supplement +=cache_dict[proper_noun_array[i]];
-             proper_noun_supplement += "<BR>";
+             proper_noun_supplement += '<span class=\"proper_noun_title_span\">■固有名詞■：' + proper_noun_array[i] + '</span><BR>\n';
+             proper_noun_supplement += '<span class =\"proper_noun_content_span\">' + cache_dict[proper_noun_array[i]] + '</span>\n';
          }
-         document.getElementById('proper_noun_display').innerHTML = proper_noun_supplement;
+         document.getElementById('proper_noun_display').insertAdjacentHTML("afterbegin",proper_noun_supplement) + "\n";
          loop_counter = 0;
      }
 
