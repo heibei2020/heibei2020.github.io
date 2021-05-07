@@ -59,6 +59,7 @@
     #result_text_before {
       background-color:#88FCB8;
       height: 55%;
+      overflow: hidden;
     }
     .panel_title {
       font-size: 30px;
