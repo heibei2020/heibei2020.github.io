@@ -55,6 +55,7 @@
       padding: 10px;
       height: 200px;
       background-color:white;
+      overflow: hidden;
     }
     #result_text_before {
       background-color:#88FCB8;
