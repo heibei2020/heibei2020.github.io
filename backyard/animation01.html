@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8 />
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <link rel="stylesheet" href="animation_style.css" type="text/css" />
+    <title>文字列のアニメーション</title>
+</head>
+
+<!-- <script src="index.js"></script> -->
+
+<body>
+    <div>文字列のアニメーションのテスト<a href="../index.html">ストックルームのトップに戻る</a></div>
+    <textarea id="k-area" rows="4" cols="40"></textarea><br>
+    <input type="submit" id="add-btn" value="追加"><br>
+    <input type="submit" id="reset-btn" value="リセット"><br>
+    <div id="display"></div>
+</body>
+
+<script type="text/javascript">
+    var target = document.getElementById('k-area');
+    var display = document.getElementById('display');
+
+    var add_btn = document.getElementById("add-btn");
+    add_btn.addEventListener("click",function (){
+        var message ="<div class=\"message\"> " + target.value + "</div>\n";
+        display.insertAdjacentHTML("afterbegin",message);
+    });
+
+    var reset_btn = document.getElementById("reset-btn");
+    reset_btn.addEventListener("click",function(){
+        target.value = "";
+        display.innerHTML = "";
+    });
+
+    function setMuatonObserver(){
+        // オブザーバーの作成
+        var mo = new MutationObserver(function(record, observer) {
+          // 変化が発生したときの処理を記述
+        target.value="";
+         target.focus(); 
+
+        });
+       
+       let config = {
+             childList: true,
+             subtree: true,
+            characterData: true
+            };
+       // 監視の開始
+       mo.observe(display,config);
+}
+
+setMuatonObserver();
+
+</script>
+
+</html>

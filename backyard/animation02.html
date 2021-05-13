@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8 />
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <link rel="stylesheet" href="animation_style.css" type="text/css" />
+    <title>文字列のアニメーション</title>
+</head>
+
+<!-- <script src="index.js"></script> -->
+
+<body>
+    <div>文字列のアニメーションのテスト<a href="../index.html">ストックルームのトップに戻る</a></div>
+    <textarea id="k-area" rows="4" cols="40">
+        われわれは
+        宇宙人だ
+        友好するために
+        やってきた
+    </textarea><br>
+    <input type="submit" id="add-btn" value="追加"><br>
+    <input type="submit" id="reset-btn" value="リセット"><br>
+    <div id="display"></div>
+</body>
+
+<script type="text/javascript">
+    var target = document.getElementById('k-area');
+    var display = document.getElementById('display');
+
+    var add_btn = document.getElementById("add-btn");
+    add_btn.addEventListener("click",function (){
+
+        var messages = getTargetArray();
+        for ( var i =0; i < messages.length; i++ )  {
+            const message ="<div class=\"message\">" + messages[i] + "</div>\n";
+            setTimeout(function(i){
+                display.insertAdjacentHTML("afterbegin",message);
+            },1000*i);
+        }
+    });
+
+    var reset_btn = document.getElementById("reset-btn");
+    reset_btn.addEventListener("click",function(){
+        target.value = "";
+        display.innerHTML = "";
+    });
+
+    function setMuatonObserver(){
+        // オブザーバーの作成
+        var mo = new MutationObserver(function(record, observer) {
+          // 変化が発生したときの処理を記述
+        target.value="";
+        target.focus(); 
+
+        });
+       
+       let config = {
+             childList: true,
+             subtree: true,
+            characterData: true
+            };
+       // 監視の開始
+       mo.observe(display,config);
+}
+
+setMuatonObserver();
+
+ //データを取得するための抽象化するための関数
+function getTargetArray(){
+    //この行で取得先を変えるようにして、呼び出し元から取得先を隠蔽する
+    var messages = getLineItemFromTextArea(target);
+
+   return messages; 
+}
+
+function getLineItemFromTextArea(targetTextArea){
+    var targetText = targetTextArea.value.replace(/\r\n|\r/g, "\n");
+    var lines = targetText.split('\n');
+    var linesArray = new Array();
+    for ( var i = 0; i < lines.length; i++ ) {
+        if( lines[i] == '' ){
+            continue;
+        }
+        linesArray.push( lines[i] );
+    }
+    return linesArray;
+}
+
+</script>
+
+</html>

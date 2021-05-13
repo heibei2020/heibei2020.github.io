@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8 />
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <link rel="stylesheet" href="display_style2.css" type="text/css" />
+    <title>チェインディスプレイのサンプル</title>
+     <script src="kuromoji.js"></script>
+
+</head>
+
+<!-- <script src="index.js"></script> -->
+
+<body>
+    <div>チェインディスプレイのサンプル<a href="../index.html">ストックルームのトップに戻る</a></div>
+    <input type="submit" id="add-btn" value="追加">  / <input type="submit" id="waka-btn" value="生成（分ち書き）">  / <input type="submit" id="reset-btn" value="リセット"><br>
+    <div id="display">
+        <div id="message"></div>
+        <div id="subdisplay_tr"></div>
+        <div id="subdisplay_tl"></div>
+        <div id="subdisplay_br"></div>
+        <div id="subdisplay_bl"></div>
+    </div>
+    <textarea id="k-area" rows="100" cols="80">
+</textarea>
+<textarea id="j-area" rows="100" cols="80">
+企業の支出管理プラットフォーム「Leaner」を提供するLeaner Technologies（リーナーテクノロジーズ）は5月13日、物品・サービスを購買する際の見積プロセスをデジタル化する新サービス「Leaner見積」をリリースした。
+</textarea>
+<br>
+</body>
+
+<script type="text/javascript">
+    const ss = " +-_+_-+ ";
+    var target = document.getElementById('k-area');
+    var base = document.getElementById('j-area');
+    var display = document.getElementById('display');
+    var messagePanel = document.getElementById("message");
+    var subPanel_tr = document.getElementById("subdisplay_tr");
+    var subPanel_br = document.getElementById("subdisplay_br");
+    var subPanel_tl = document.getElementById("subdisplay_tl");
+    var subPanel_bl = document.getElementById("subdisplay_bl");
+
+    //分かち書きエンジンを初期化して準備
+    let kuromojiObj;
+    var kurobuilder = kuromoji.builder({ dicPath: "dict/" });
+
+    kurobuilder.build(function(err,tokenizer){
+        // tokenizer is ready
+        kuromojiObj = tokenizer;
+        console.log("tokenizer is ready");
+    });
+
+    var add_btn = document.getElementById("add-btn");
+    add_btn.addEventListener("click",function (){
+
+        var i = 0;
+        var messages = getTargetArray();
+        chainDisplay(i,messages);
+
+    });
+
+    var waka_btn = document.getElementById("waka-btn");
+    waka_btn.addEventListener("click",function (){
+        console.log("waka_btn");
+
+        var token_result = kuromojiObj.tokenize(base.value);
+        var token_result_list = "";
+
+        for (var i = 0; i < token_result.length; i++) {
+            token_result_list += token_result[i].surface_form + ss + "\[" + token_result[i].pos +  "の"+ token_result[i].pos_detail_1 + "\]"+ "\n";
+        }
+        target.value = token_result_list;
+    });
+
+    function chainDisplay(i,messages) {
+            if(messages.length <= i) {
+                return;
+            }
+
+            setTimeout(function( i, messages) {
+
+                var message = messages[i].split(ss);
+                var message_length = message[0].length;
+
+                var font_size_begin = (window.innerWidth*0.95)/message_length;
+                if(font_size_begin > messagePanel.parentElement.offsetHeight * 0.9)  {
+                    font_size_begin = messagePanel.parentElement.offsetHeight * 0.9;
+                }
+                messagePanel.innerHTML = message[0]+ "\n";
+                messagePanel.style.fontSize = font_size_begin + "px";
+                subPanel_tr.innerHTML = i + " 番目\n";
+                subPanel_bl.innerHTML = "文字列長 " + message_length  + " 個\n";
+                subPanel_br.innerHTML = message[1] + "\n";
+                subPanel_tl.innerHTML = "" + "\n";
+
+                i++;
+                chainDisplay(i,messages);
+            },1000,i,messages);
+    }
+
+    var reset_btn = document.getElementById("reset-btn");
+    reset_btn.addEventListener("click",function(){
+        display.innerHTML = "";
+    });
+
+    //データを取得するための抽象化するための関数
+    function getTargetArray(){
+        //この行で取得先を変えるようにして、呼び出し元から取得先を隠蔽する
+        var messages = getLineItemFromTextArea(target);
+        return messages; 
+    }
+
+    function getLineItemFromTextArea(targetTextArea){
+        var targetText = targetTextArea.value.replace(/\r\n|\r/g, "\n");
+        var lines = targetText.split('\n');
+        var linesArray = new Array();
+        for ( var i = 0; i < lines.length; i++ ) {
+            if( lines[i] == '' ){
+                continue;
+            }
+            linesArray.push( lines[i] );
+        }
+        return linesArray;
+    }
+
+</script>
+
+</html>
