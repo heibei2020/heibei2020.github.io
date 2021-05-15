@@ -15,9 +15,9 @@
 
 <body>
     <div>高橋メソッドを自動的に実行するプロト(チェインディスプレイのサンプル) <a href="../index.html">ストックルームのトップに戻る</a></div>
-    <div>操作　生成（分ち書き)→プレゼン実行</div>
+    <div>【操作】　1. 生成（分ち書き) → 2. プレゼン実行</div>
     </div>
-    <input type="submit" id="add-btn" value="プレゼン実行">  / <input type="submit" id="waka-btn" value="生成（分ち書き）">  / <input type="submit" id="reset-btn" value="リセット"><br>
+    <input type="submit" id="waka-btn" value="生成（分ち書き）"> / <input type="submit" id="add-btn" value="プレゼン実行"> / <input type="submit" id="reset-btn" value="リセット"><br>
     <div id="display">
         <div id="message"></div>
         <div id="subdisplay_tr"></div>
@@ -32,10 +32,10 @@
     </div>
    
     <div id="targetPanel">
-<textarea id="k-area" rows="50" cols="80">
-</textarea>
 <textarea id="j-area" rows="50" cols="80">
 英ケンブリッジ大学と国際エネルギー機関によると、ビットコインの「採掘」（取引データの承認作業）に伴うエネルギー消費量は、現在のレートだと2019年のオランダの年間消費量に匹敵するという。また科学誌に掲載された論文によると、ヨルダンやスリランカと同程度の温室効果ガスを排出するという</textarea>
+<textarea id="k-area" rows="50" cols="80">
+</textarea>
 </div>
 
 <div>
@@ -148,10 +148,6 @@
                 write_flag = false;
                 kakko_flag = true;
             }
-            if(brackets_end.indexOf(token_result[i].surface_form) !==-1){ //括弧の終わり
-                write_flag = true;
-                kakko_flag = false;
-            }
 
             //次を見て前倒しした方が良いものは繋げる
             if(i + 1 < token_result.length ){
@@ -169,6 +165,11 @@
 
             token_result_surface_form += token_result[i].surface_form;
             token_result_pos += "\[" + token_result[i].pos + token_result[i].pos_detail_1 + "\]";
+
+            if(brackets_end.indexOf(token_result[i].surface_form) !==-1){ //括弧の終わり
+                write_flag = true;
+                kakko_flag = false;
+            }
 
             if(kakko_flag){
                 write_flag = false;
