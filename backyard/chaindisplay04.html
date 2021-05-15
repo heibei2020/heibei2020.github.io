@@ -23,11 +23,50 @@
         <div id="subdisplay_br"></div>
         <div id="subdisplay_bl"></div>
     </div>
-    <textarea id="k-area" rows="100" cols="80">
+    <div>
+
+     <div>
+    表示時間 <input type="text" id="display_time"  style="text-align:right" size=7> ms
+    </div>
+<textarea id="k-area" rows="100" cols="80">
 </textarea>
 <textarea id="j-area" rows="100" cols="80">
-企業の支出管理プラットフォーム「Leaner」を提供するLeaner Technologies（リーナーテクノロジーズ）は5月13日、物品・サービスを購買する際の見積プロセスをデジタル化する新サービス「Leaner見積」をリリースした。
+英ケンブリッジ大学と国際エネルギー機関によると、ビットコインの「採掘」（取引データの承認作業）に伴うエネルギー消費量は、現在のレートだと2019年のオランダの年間消費量に匹敵するという。また科学誌に掲載された論文によると、ヨルダンやスリランカと同程度の温室効果ガスを排出するという</textarea>
+
+<textarea id="continue_word_class_area" rows="30" cols="80">
+括弧閉
+係助詞
+格助詞
+副詞
+連体化
+読点
+接尾
+句点
 </textarea>
+<textarea id="continue_word_class_2_area" rows="30" cols="80">
+動詞自立
+助動詞*
+名詞非自立
+</textarea>
+
+<textarea id="continue_word_class_pattern_area" rows="30" cols="80">
+名詞一般名詞一般
+名詞固有名詞記号空白
+記号空白名詞固有名詞
+名詞固有名詞名詞一般
+名詞一般名詞固有名詞
+名詞固有名詞記号一般
+記号一般名詞固有名詞
+名詞一般記号一般
+記号一般名詞一般
+名詞サ変接続名詞固有名詞
+名詞固有名詞名詞サ変接続
+名詞サ変接続名詞一般
+名詞一般名詞サ変接続
+名詞サ変接続名詞サ変接続
+</textarea>
+
+     </div>
 <br>
 </body>
 
@@ -35,15 +74,6 @@
     const ss = " +-_+_-+ ";
     const brackets_start = "[{(「（";
     const brackets_end = "]})」）";
-    const continue_word_class ={
-        "括弧閉":true,
-        "係助詞":true,
-        "格助詞":true,
-        "副詞":true,
-        "連体化":true,
-        "読点":true,
-        "句点":true
-    };
 
     var target = document.getElementById('k-area');
     var base = document.getElementById('j-area');
@@ -53,6 +83,17 @@
     var subPanel_br = document.getElementById("subdisplay_br");
     var subPanel_tl = document.getElementById("subdisplay_tl");
     var subPanel_bl = document.getElementById("subdisplay_bl");
+
+    var display_time_input = document.getElementById('display_time');
+    var display_time = 30;
+
+    //============================================
+    var continue_word_class_area = document.getElementById('continue_word_class_area');
+    var continue_word_class = {};
+    var continue_word_class_2_area = document.getElementById('continue_word_class_2_area');
+    var continue_word_class_2 = {};
+    var continue_word_class_pattern_area = document.getElementById('continue_word_class_pattern_area');
+    var continue_word_class_pattern = {};
 
     //分かち書きエンジンを初期化して準備
     let kuromojiObj;
@@ -69,6 +110,10 @@
 
         var i = 0;
         var messages = getTargetArray();
+        if(display_time_input.value != ""){
+            display_time = display_time_input.value;
+        }
+
         chainDisplay(i,messages);
 
     });
@@ -77,48 +122,75 @@
     waka_btn.addEventListener("click",function (){
         console.log("waka_btn");
 
+        var continue_word_class_values = continue_word_class_area.value.split('\n');
+        for(k=0;k < continue_word_class_values.length;k++){
+            continue_word_class[continue_word_class_values[k]]= true;
+        }
+        var continue_word_class_2_values = continue_word_class_2_area.value.split('\n');
+        for(k=0;k < continue_word_class_2_values.length;k++){
+            continue_word_class_2[continue_word_class_2_values[k]]= true;
+        }
+        var continue_word_class_pattern_values = continue_word_class_pattern_area.value.split('\n');
+        for(k=0;k < continue_word_class_pattern_values.length;k++){
+            continue_word_class_pattern[continue_word_class_pattern_values[k]]= true;
+        }
+
         var token_result = kuromojiObj.tokenize(base.value);
 
         var token_result_list = "";
         var token_result_surface_form = "";
         var token_result_pos = "";
+        var write_flag = true;
+        var kakko_flag = false;
 
         for (var i = 0; i < token_result.length; i++) {
 
             if(brackets_start.indexOf(token_result[i].surface_form) !== -1){ // 括弧始まり
-                token_result_surface_form = "";
-                token_result_pos = "";
-                for(var j = i; j< token_result.length;j++){
-                    token_result_surface_form += token_result[j].surface_form;
-                    token_result_pos += "\[" + token_result[j].pos +  "の"+ token_result[j].pos_detail_1 + "\]";
-                    if(brackets_end.indexOf(token_result[j].surface_form) !==-1){
-                        i = j ;
-                        break;
-                    }
-                }
-            }else{
-                token_result_surface_form = token_result[i].surface_form;
-                token_result_pos = "\[" + token_result[i].pos +  "の"+ token_result[i].pos_detail_1 + "\]";
+                write_flag = false;
+                kakko_flag = true;
+            }
+            if(brackets_end.indexOf(token_result[i].surface_form) !==-1){ //括弧の終わり
+                write_flag = true;
+                kakko_flag = false;
+            }
 
-                //次を見て前倒しした方が良いものは繋げる
-                if(i + 1 < token_result.length){
-                    if(continue_word_class[token_result[i+1].pos_detail_1]){
-                        i++;
-                        token_result_surface_form += token_result[i].surface_form;
-                        token_result_pos += "\[" + token_result[i].pos +  "の"+ token_result[i].pos_detail_1 + "\]";
-                    }
+            //次を見て前倒しした方が良いものは繋げる
+            if(i + 1 < token_result.length){
+                if(continue_word_class[token_result[i+1].pos_detail_1] || continue_word_class_2[[token_result[i+1].pos] + [token_result[i+1].pos_detail_1]]){
+                    write_flag = false;
+                }
+                //出現パターンを見て切るかどうが見る:
+                var current_pos_and_pos_detail = token_result[i].pos + token_result[i].pos_detail_1;
+                var next_pos_and_pos_detail = token_result[i+1].pos + token_result[i+1].pos_detail_1;
+                if(continue_word_class_pattern[current_pos_and_pos_detail + next_pos_and_pos_detail]){
+                    write_flag = false;
                 }
             }
-            token_result_list += token_result_surface_form + ss + token_result_pos + "\n";
+
+            token_result_surface_form += token_result[i].surface_form;
+            token_result_pos += "\[" + token_result[i].pos +  "の"+ token_result[i].pos_detail_1 + "\]";
+
+            if(kakko_flag){
+                write_flag = false;
+            }
+            if(write_flag) {
+                token_result_list += token_result_surface_form + ss + token_result_pos + "\n";
+                //-----初期化
+                token_result_surface_form = "";
+                token_result_pos = "";
+            }
+            write_flag = true;
         }
 
-        target.value = token_result_list;
+        target.value = token_result_list; // テキストエリアに書き出す
+        
     });
 
     function chainDisplay(i,messages) {
             if(messages.length <= i) {
                 return;
             }
+            var j = i;
 
             setTimeout(function( i, messages) {
 
@@ -143,7 +215,9 @@
 
                 i++;
                 chainDisplay(i,messages);
-            },1000,i,messages);
+
+            },display_time*messages[j].length,i,messages);
+
     }
 
     var reset_btn = document.getElementById("reset-btn");

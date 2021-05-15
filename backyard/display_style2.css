@@ -18,28 +18,28 @@
 }
 
 #subdisplay_tr {
-    font-size: 60px;
+    font-size: 25px;
     position: absolute;
     top: 1%;
     right: 1%;
 }
 
 #subdisplay_br {
-    font-size: 60px;
+    font-size: 25px;
     position: absolute;
     bottom: 1%;
     right: 1%;
 }
 
 #subdisplay_tl {
-    font-size: 60px;
+    font-size: 25px;
     position: absolute;
     top: 1%;
     left:  1%;
 }
 
 #subdisplay_bl {
-    font-size: 60px;
+    font-size: 25px;
     position: absolute;
     bottom: 1%;
     left: 1%;
