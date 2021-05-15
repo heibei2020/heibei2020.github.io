@@ -14,7 +14,7 @@
 <!-- <script src="index.js"></script> -->
 
 <body>
-    <div>高橋メソッドを自動的に実行するプロト(チェインディスプレイ)のサンプル<a href="../index.html">ストックルームのトップに戻る</a></div>
+    <div>高橋メソッドを自動的に実行するプロト(チェインディスプレイのサンプル<a href="../index.html">ストックルームのトップに戻る</a></div>
     <input type="submit" id="add-btn" value="追加">  / <input type="submit" id="waka-btn" value="生成（分ち書き）">  / <input type="submit" id="reset-btn" value="リセット"><br>
     <div id="display">
         <div id="message"></div>
@@ -207,11 +207,11 @@
 
                 subPanel_tr.innerHTML = i + " 番目\n";
 
-                subPanel_bl.innerHTML = "文字列長 " + message_length  + " 個\n";
+                subPanel_tl.innerHTML = "文字列長 " + message_length  + " 個\n";
 
-                subPanel_br.innerHTML = message[1] + "\n";
+                subPanel_bl.innerHTML = message[1] + "\n";
 
-                subPanel_tl.innerHTML = "" + "\n";
+                subPanel_br.innerHTML = "" + "\n";
 
                 i++;
                 chainDisplay(i,messages);
