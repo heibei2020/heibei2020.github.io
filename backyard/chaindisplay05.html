@@ -14,8 +14,10 @@
 <!-- <script src="index.js"></script> -->
 
 <body>
-    <div>高橋メソッドを自動的に実行するプロト(チェインディスプレイのサンプル<a href="../index.html">ストックルームのトップに戻る</a></div>
-    <input type="submit" id="add-btn" value="追加">  / <input type="submit" id="waka-btn" value="生成（分ち書き）">  / <input type="submit" id="reset-btn" value="リセット"><br>
+    <div>高橋メソッドを自動的に実行するプロト(チェインディスプレイのサンプル) <a href="../index.html">ストックルームのトップに戻る</a></div>
+    <div>操作　生成（分ち書き)→プレゼン実行</div>
+    </div>
+    <input type="submit" id="add-btn" value="プレゼン実行">  / <input type="submit" id="waka-btn" value="生成（分ち書き）">  / <input type="submit" id="reset-btn" value="リセット"><br>
     <div id="display">
         <div id="message"></div>
         <div id="subdisplay_tr"></div>
@@ -28,10 +30,15 @@
      <div>
     表示時間 <input type="text" id="display_time"  style="text-align:right" size=7> ms
     </div>
+   
+    <div id="targetPanel">
+　分ち書きした文章
 <textarea id="k-area" rows="50" cols="80">
 </textarea>
+　対象となる文章（以下に記載）
 <textarea id="j-area" rows="50" cols="80">
 英ケンブリッジ大学と国際エネルギー機関によると、ビットコインの「採掘」（取引データの承認作業）に伴うエネルギー消費量は、現在のレートだと2019年のオランダの年間消費量に匹敵するという。また科学誌に掲載された論文によると、ヨルダンやスリランカと同程度の温室効果ガスを排出するという</textarea>
+</div>
 
 <div>
 
