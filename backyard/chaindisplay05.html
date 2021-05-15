@@ -6,7 +6,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Cache-Control" content="no-cache">
     <link rel="stylesheet" href="display_style2.css" type="text/css" />
-    <title>チェインディスプレイのサンプル</title>
+    <title>高橋メソッドを自動で実行するプロト(チェインディスプレイのサンプル)</title>
      <script src="kuromoji.js"></script>
 
 </head>
@@ -14,7 +14,7 @@
 <!-- <script src="index.js"></script> -->
 
 <body>
-    <div>チェインディスプレイのサンプル<a href="../index.html">ストックルームのトップに戻る</a></div>
+    <div>高橋メソッドを自動的に実行するプロト(チェインディスプレイ)のサンプル<a href="../index.html">ストックルームのトップに戻る</a></div>
     <input type="submit" id="add-btn" value="追加">  / <input type="submit" id="waka-btn" value="生成（分ち書き）">  / <input type="submit" id="reset-btn" value="リセット"><br>
     <div id="display">
         <div id="message"></div>
@@ -28,45 +28,30 @@
      <div>
     表示時間 <input type="text" id="display_time"  style="text-align:right" size=7> ms
     </div>
-<textarea id="k-area" rows="100" cols="80">
+<textarea id="k-area" rows="50" cols="80">
 </textarea>
-<textarea id="j-area" rows="100" cols="80">
+<textarea id="j-area" rows="50" cols="80">
 英ケンブリッジ大学と国際エネルギー機関によると、ビットコインの「採掘」（取引データの承認作業）に伴うエネルギー消費量は、現在のレートだと2019年のオランダの年間消費量に匹敵するという。また科学誌に掲載された論文によると、ヨルダンやスリランカと同程度の温室効果ガスを排出するという</textarea>
 
 <div>
-<textarea id="continue_word_class_area" rows="30" cols="80">
-括弧閉
-係助詞
-格助詞
-副詞
-連体化
-読点
-接尾
-句点
-</textarea>
 
-<textarea id="continue_word_class_2_area" rows="30" cols="80">
+<textarea id="continue_word_class_area" rows="30" cols="80">
+記号括弧閉
+^助詞.+
+^副詞+
+助詞連体化
+^記号読点+
+^.+接尾$
+^記号句点+
 動詞自立
-助動詞*
-名詞非自立
-</textarea>
+助動詞+
+名詞非自立</textarea>
 
 <textarea id="continue_word_class_pattern_area" rows="30" cols="80">
-名詞一般名詞一般
-名詞固有名詞記号空白
-記号空白名詞固有名詞
-名詞固有名詞名詞一般
-名詞一般名詞固有名詞
-名詞固有名詞記号一般
-記号一般名詞固有名詞
-名詞一般記号一般
-記号一般名詞一般
-名詞サ変接続名詞固有名詞
-名詞固有名詞名詞サ変接続
-名詞サ変接続名詞一般
-名詞一般名詞サ変接続
-名詞サ変接続名詞サ変接続
-</textarea>
+^名詞.+名詞.+
+^助詞.+記号.+
+^接頭詞.+名詞.+
+名詞サ変接続名詞サ変接続</textarea>
 </div>
 
 </div>
@@ -93,11 +78,13 @@
 
     //============================================
     var continue_word_class_area = document.getElementById('continue_word_class_area');
-    var continue_word_class = {};
-    var continue_word_class_2_area = document.getElementById('continue_word_class_2_area');
-    var continue_word_class_2 = {};
+    var continue_word_class_rex_string = "";
+    var continue_word_class_rex_object;
+
+    //============================================
     var continue_word_class_pattern_area = document.getElementById('continue_word_class_pattern_area');
-    var continue_word_class_pattern = {};
+    var continue_word_class_pattern_rex_string = "";
+    var continue_word_class_pattern_rex_object;
 
     //分かち書きエンジンを初期化して準備
     let kuromojiObj;
@@ -127,20 +114,23 @@
         console.log("waka_btn");
 
         var continue_word_class_values = continue_word_class_area.value.split('\n');
-        for(k=0;k < continue_word_class_values.length;k++){
-            continue_word_class[continue_word_class_values[k]]= true;
+        continue_word_class_rex_string = continue_word_class_values[0];
+        for(k=1;k < continue_word_class_values.length;k++){
+            continue_word_class_rex_string += "|" + continue_word_class_values[k];
         }
-        var continue_word_class_2_values = continue_word_class_2_area.value.split('\n');
-        for(k=0;k < continue_word_class_2_values.length;k++){
-            continue_word_class_2[continue_word_class_2_values[k]]= true;
-        }
+        console.log(continue_word_class_rex_string);
+        continue_word_class_rex_object = new RegExp(continue_word_class_rex_string,"");
+
         var continue_word_class_pattern_values = continue_word_class_pattern_area.value.split('\n');
-        for(k=0;k < continue_word_class_pattern_values.length;k++){
-            continue_word_class_pattern[continue_word_class_pattern_values[k]]= true;
+        continue_word_class_pattern_rex_string = continue_word_class_pattern_values[0];
+        for(k=1;k < continue_word_class_pattern_values.length;k++){
+            continue_word_class_pattern_rex_string += "|" + continue_word_class_pattern_values[k];
         }
+        console.log(continue_word_class_pattern_rex_string);
+        continue_word_class_pattern_rex_object = new RegExp(continue_word_class_pattern_rex_string,"");
+
 
         var token_result = kuromojiObj.tokenize(base.value);
-
         var token_result_list = "";
         var token_result_surface_form = "";
         var token_result_pos = "";
@@ -159,25 +149,27 @@
             }
 
             //次を見て前倒しした方が良いものは繋げる
-            if(i + 1 < token_result.length){
-                if(continue_word_class[token_result[i+1].pos_detail_1] || continue_word_class_2[[token_result[i+1].pos] + [token_result[i+1].pos_detail_1]]){
+            if(i + 1 < token_result.length ){
+                var current_pos_and_pos_detail = token_result[i].pos + token_result[i].pos_detail_1;
+                var next_pos_and_pos_detail = token_result[i+1].pos + token_result[i+1].pos_detail_1;
+
+                if(continue_word_class_rex_object.test(next_pos_and_pos_detail)){
                     write_flag = false;
                 }
                 //出現パターンを見て切るかどうが見る:
-                var current_pos_and_pos_detail = token_result[i].pos + token_result[i].pos_detail_1;
-                var next_pos_and_pos_detail = token_result[i+1].pos + token_result[i+1].pos_detail_1;
-                if(continue_word_class_pattern[current_pos_and_pos_detail + next_pos_and_pos_detail]){
+                if(continue_word_class_pattern_rex_object.test(current_pos_and_pos_detail + next_pos_and_pos_detail)){
                     write_flag = false;
                 }
             }
 
             token_result_surface_form += token_result[i].surface_form;
-            token_result_pos += "\[" + token_result[i].pos +  "の"+ token_result[i].pos_detail_1 + "\]";
+            token_result_pos += "\[" + token_result[i].pos + token_result[i].pos_detail_1 + "\]";
 
             if(kakko_flag){
                 write_flag = false;
             }
             if(write_flag) {
+
                 token_result_list += token_result_surface_form + ss + token_result_pos + "\n";
                 //-----初期化
                 token_result_surface_form = "";
@@ -194,7 +186,11 @@
             if(messages.length <= i) {
                 return;
             }
-            var j = i;
+            if(i > 0){
+                local_display_time = display_time * messages[i-1] .length;
+            }else{
+                local_display_time = display_time;
+            }
 
             setTimeout(function( i, messages) {
 
@@ -220,7 +216,7 @@
                 i++;
                 chainDisplay(i,messages);
 
-            },display_time*messages[j].length,i,messages);
+            },local_display_time,i,messages);
 
     }
 

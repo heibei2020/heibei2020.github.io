@@ -1,0 +1,23 @@
+
+
+function chaintest(i) {
+    var j = i;
+    console.log("called chaintest");
+    console.log(Date());
+    console.log(j);
+    if(i==10){
+       return; 
+    }
+    setTimeout(function(i) {
+        console.log("begin in settimeout");
+        i++;
+        console.log(Date());
+        console.log(i);
+        chaintest(i);
+        console.log("end in settimeout");
+        console.log(i);
+    },1000,i);
+}
+
+var i = 0;
+chaintest(i);
