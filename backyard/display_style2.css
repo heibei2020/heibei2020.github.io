@@ -7,7 +7,7 @@
     background-color:orange;
 }
 #message {
-    font-size: 10px;
+    font-size:10vw;
     white-space: nowrap;
     text-align: center;
     vertical-align:text-bottom;
@@ -43,4 +43,15 @@
     position: absolute;
     bottom: 1%;
     left: 1%;
+}
+
+.tatePanel {
+    padding: 5px;
+  display: flex;
+  flex-direction: column;
+}
+.yokoPanel {
+    padding: 5px;
+    display:flex;
+    flex-direction: row;
 }
