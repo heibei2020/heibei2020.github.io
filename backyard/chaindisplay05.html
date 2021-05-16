@@ -11,8 +11,6 @@
 
 </head>
 
-<!-- <script src="index.js"></script> -->
-
 <body>
     <div>高橋メソッドを自動的に実行するプロト(チェインディスプレイのサンプル) <a href="../index.html">ストックルームのトップに戻る</a></div>
     <div>【操作】　1. 生成（分ち書き) → 2. プレゼン実行 (１．はページを表示した時に、辞書をダウンロードが発生してるので時間を置いて実行してください)</div>
@@ -28,13 +26,10 @@
         <div id="subdisplay_bl"></div>
     </div>
 
-    <div>
-
 <!---------------------------- ------------------------->
 <!---------------------------- ------------------------->
-<!---------------------------- ------------------------->
-
 <div class="yokoPanel">
+<!---------------------------- ------------------------->
 <div class="tatePanel">
 <div>高橋メソッド表示したい対象の文章</div>
 <textarea id="j-area" rows="50" cols="80">
@@ -45,37 +40,31 @@
 ５０％以上は、最も深刻な「ステージ４」の水準で、５月１１日時点では大阪と石川がともに８２％に上っている。１６日から緊急事態宣言が発令される岡山など５県が７０％台、１３府県が５０～６０％台だった。
 </textarea>
 </div>
+<!---------------------------- ------------------------->
 
 <div class="tatePanel">
  <div>表示用に分ち書き・変換した文書</div>
 <textarea id="k-area" rows="50" cols="80">
 </textarea>
 </div>
+<!---------------------------- ------------------------->
 </div>
-
-</div>
-<div>
-
 <!---------------------------- ------------------------->
 <!---------------------------- ------------------------->
-<!---------------------------- ------------------------->
-
 <div class="yokoPanel">
+<!---------------------------- ------------------------->
 <div class="tatePanel">
-     <div >
+    <div >
     一文字当たりの表示時間<br>
     <input type="text" id="display_time"  style="text-align:right" size=7> ms<br>
     <br>
-    <div style="width:150px; font-size:15px">
-    分ち書きした文に含まれる文字数に応じて表示時間を調節してる。その単価を設定するもの。
+        <div style="width:150px; font-size:15px">分ち書きした文に含まれる文字数に応じて表示時間を調節してる。その単価を設定するもの。</div>
     </div>
-    </div>
-
 </div>
-
+<!---------------------------- ------------------------->
 <div class="tatePanel">
 <div>分ち書きしないで連結する対象の品詞</div>
-<textarea id="continue_word_class_area" rows="30" cols="80">
+<textarea id="continue_word_class_area" rows="30" cols="40">
 記号括弧閉
 ^助詞.+
 ^副詞+
@@ -87,15 +76,25 @@
 助動詞+
 名詞非自立</textarea>
 </div>
-
+<!---------------------------- ------------------------->
 <div class="tatePanel">
 <div>分ち書きしないで連結するの品詞並び</div>
-<textarea id="continue_word_class_pattern_area" rows="30" cols="80">
+<textarea id="continue_word_class_pattern_area" rows="30" cols="40">
 ^名詞.+名詞.+
-^助詞.+記号.+
 ^接頭詞.+名詞.+
-名詞サ変接続名詞サ変接続</textarea>
+助詞接続助詞動詞.+
+助詞接続助詞動詞.+
+名詞サ変接続.+</textarea>
 </div>
+<!---------------------------- ------------------------->
+<div class="tatePanel">
+<div>必ずその後ろで分ち書き「する」品詞</div>
+<textarea id="devide_word_class_area" rows="30" cols="40">
+^記号読点+
+^記号句点+</textarea>
+</div>
+<!---------------------------- ------------------------->
+<!---------------------------- ------------------------->
 </div>
 
 <br>
@@ -127,6 +126,11 @@
     var continue_word_class_pattern_area = document.getElementById('continue_word_class_pattern_area');
     var continue_word_class_pattern_rex_string = "";
     var continue_word_class_pattern_rex_object;
+
+    //============================================
+    var devide_word_class_area = document.getElementById('devide_word_class_area');
+    var devide_word_class_rex_string = "";
+    var devide_word_class_rex_object;
 
     //分かち書きエンジンを初期化して準備
     let kuromojiObj;
@@ -160,7 +164,6 @@
         for(k=1;k < continue_word_class_values.length;k++){
             continue_word_class_rex_string += "|" + continue_word_class_values[k];
         }
-        console.log(continue_word_class_rex_string);
         continue_word_class_rex_object = new RegExp(continue_word_class_rex_string,"");
 
         var continue_word_class_pattern_values = continue_word_class_pattern_area.value.split('\n');
@@ -168,8 +171,14 @@
         for(k=1;k < continue_word_class_pattern_values.length;k++){
             continue_word_class_pattern_rex_string += "|" + continue_word_class_pattern_values[k];
         }
-        console.log(continue_word_class_pattern_rex_string);
         continue_word_class_pattern_rex_object = new RegExp(continue_word_class_pattern_rex_string,"");
+
+        var devide_word_class_values = devide_word_class_area.value.split('\n');
+        devide_word_class_rex_string = devide_word_class_values[0];
+        for(k=1;k < devide_word_class_values.length;k++){
+            devide_word_class_rex_string += "|" + devide_word_class_values[k];
+        }
+        devide_word_class_rex_object = new RegExp(devide_word_class_rex_string,"");
 
 
         var token_result = kuromojiObj.tokenize(base.value);
@@ -206,6 +215,10 @@
             if(brackets_end.indexOf(token_result[i].surface_form) !==-1){ //括弧の終わり
                 write_flag = true;
                 kakko_flag = false;
+            }
+
+            if(devide_word_class_rex_object.test(current_pos_and_pos_detail)){
+                write_flag = true;
             }
 
             if(kakko_flag){
