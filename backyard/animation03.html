@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8 />
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <link rel="stylesheet" href="animation_style2.css" type="text/css" />
+    <title>下から上に流れていく感じ</title>
+</head>
+
+<!-- <script src="index.js"></script> -->
+
+<body>
+    <div>文字列のアニメーションのテスト<a href="../index.html">ストックルームのトップに戻る</a></div>
+
+    <div id="mainPanel">
+        <div id="leftPanel">
+            <textarea id="k-area" rows="4" cols="40"></textarea><br>
+            <input type="submit" id="add-btn" value="追加"><br>
+            <input type="submit" id="reset-btn" value="リセット"><br>
+        </div>
+        <div id="rightPanel">
+            <div id="display">
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<script type="text/javascript">
+    var target = document.getElementById('k-area');
+    var display = document.getElementById('display');
+
+    var add_btn = document.getElementById("add-btn");
+
+    add_btn.addEventListener("click",function (){
+       //var tmpvalue = target.value + "<br>\n" + mongon.innerHTML;
+       var tmpvalue = display.innerHTML + "<br>\n" + target.value;
+        display.innerHTML= tmpvalue;
+        target.value = "";
+    });
+
+    var reset_btn = document.getElementById("reset-btn");
+    reset_btn.addEventListener("click",function(){
+        target.value = "";
+        display.innerHTML = "";
+
+    });
+
+</script>
+
+</html>

@@ -1,0 +1,27 @@
+
+@media (min-width: 750px) {
+   #mainPanel{
+       display: flex;
+   }
+   #leftPanel{
+       background-color:darkcyan
+   }
+   #rightPanel{
+       background-color:lightseagreen;
+       height: 300px;
+       width: 400px;
+       position: relative;
+   }
+   
+   #display {
+       margin: 5px;
+       padding: 5px;
+       background-color:orange;
+       width: 300px;
+       position: absolute;
+       bottom:0px;
+       display:flex;
+       flex-direction:column;
+       overflow: hidden;
+   }
+}
